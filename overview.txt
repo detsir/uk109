@@ -1,0 +1,56 @@
+NAME                                         READY   STATUS             RESTARTS      AGE
+pod/counter-database-6cd48dfc86-9zhx4        1/1     Running            0             77m
+pod/counter-frontend-6577cd8f4-p69sh         0/1     CrashLoopBackOff   7 (41s ago)   12m
+pod/counter-postgresadmin-7db67cddc9-bqfph   1/1     Running            0             8m48s
+pod/uk109-1-build                            0/1     Completed          0             7d3h
+
+NAME                            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/counter-backend         ClusterIP   172.30.22.122    <none>        8080/TCP   119m
+service/counter-database        ClusterIP   172.30.3.114     <none>        8080/TCP   173m
+service/counter-frontend        ClusterIP   172.30.4.22      <none>        8080/TCP   11m
+service/counter-postgresadmin   ClusterIP   172.30.49.108    <none>        5050/TCP   8m48s
+service/pgadmin4                ClusterIP   172.30.109.233   <none>        5050/TCP   7d1h
+service/postgresql              ClusterIP   172.30.89.18     <none>        5432/TCP   7d1h
+
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/counter-backend         0/0     0            0           48m
+deployment.apps/counter-database        1/1     1            1           173m
+deployment.apps/counter-frontend        0/1     1            0           12m
+deployment.apps/counter-postgresadmin   1/1     1            1           8m48s
+deployment.apps/pgadmin4                0/0     0            0           7d1h
+deployment.apps/uk109                   0/0     0            0           7d3h
+
+NAME                                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/counter-backend-6cc65db4c7         0         0         0       45m
+replicaset.apps/counter-backend-6f4f46c6b4         0         0         0       48m
+replicaset.apps/counter-backend-849d5ccb7f         0         0         0       44m
+replicaset.apps/counter-database-6cd48dfc86        1         1         1       77m
+replicaset.apps/counter-frontend-6577cd8f4         1         1         0       12m
+replicaset.apps/counter-postgresadmin-7db67cddc9   1         1         1       8m49s
+replicaset.apps/pgadmin4-c9884fc7                  0         0         0       7d1h
+replicaset.apps/uk109-5bb5659ccd                   0         0         0       7d3h
+replicaset.apps/uk109-b5484ccf9                    0         0         0       7d3h
+
+NAME                                   TYPE     FROM   LATEST
+buildconfig.build.openshift.io/uk109   Source   Git    1
+
+NAME                               TYPE     FROM          STATUS     STARTED      DURATION
+build.build.openshift.io/uk109-1   Source   Git@642c9ea   Complete   7 days ago   50s
+
+NAME                                                   IMAGE REPOSITORY                                                              TAGS     UPDATED
+imagestream.image.openshift.io/counter-postgresadmin   registry.exoscale-ch-gva-2-0.appuio.cloud/zlic-dparic/counter-postgresadmin   latest   8 minutes ago
+imagestream.image.openshift.io/pgadmin4                registry.exoscale-ch-gva-2-0.appuio.cloud/zlic-dparic/pgadmin4                latest   7 days ago
+imagestream.image.openshift.io/uk109                   registry.exoscale-ch-gva-2-0.appuio.cloud/zlic-dparic/uk109                   latest   7 days ago
+
+NAME                                             HOST/PORT                                                                 PATH   SERVICES                PORT         TERMINATION     WILDCARD
+route.route.openshift.io/counter-backend         counter-backend-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud                counter-backend         8080         edge            None
+route.route.openshift.io/counter-frontend        counter-frontend-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud               counter-frontend        8080         edge            None
+route.route.openshift.io/counter-postgresadmin   counter-postgresadmin-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud          counter-postgresadmin   5050-tcp     edge/Redirect   None
+route.route.openshift.io/html-page               html-page-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud                      html-page               8080-tcp     edge/Redirect   None
+route.route.openshift.io/m210-page               m210-page-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud                      m210-page               8080-tcp     edge/Redirect   None
+route.route.openshift.io/nginxwebsitetest        nginxwebsitetest-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud               nginxwebsitetest        8080-tcp     edge/Redirect   None
+route.route.openshift.io/pgadmin4                pgadmin4-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud                       pgadmin4                5050-tcp     edge/Redirect   None
+route.route.openshift.io/postgresql              postgresql-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud                     postgresql              postgresql                   None
+route.route.openshift.io/quotes                  quotes-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud                         quotes                  10000-tcp                    None
+route.route.openshift.io/quotesweb               quotesweb-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud                      quotesweb               3000-tcp                     None
+route.route.openshift.io/uk109                   uk109-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud                          uk109                   8080-tcp     edge/Redirect   None

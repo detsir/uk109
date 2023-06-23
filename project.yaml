@@ -1,0 +1,2964 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "cilium",
+            "interface": "eth0",
+            "ips": [
+                "10.0.11.30"
+            ],
+            "mac": "fa:02:13:ac:d3:45",
+            "default": true,
+            "dns": {}
+        }]
+      k8s.v1.cni.cncf.io/networks-status: |-
+        [{
+            "name": "cilium",
+            "interface": "eth0",
+            "ips": [
+                "10.0.11.30"
+            ],
+            "mac": "fa:02:13:ac:d3:45",
+            "default": true,
+            "dns": {}
+        }]
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, ephemeral-storage,
+        memory request for container counter-database; cpu, memory limit for container
+        counter-database'
+      openshift.io/scc: restricted-v2
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    creationTimestamp: "2023-06-23T11:30:06Z"
+    generateName: counter-database-6cd48dfc86-
+    labels:
+      app: counter-database
+      pod-template-hash: 6cd48dfc86
+    name: counter-database-6cd48dfc86-9zhx4
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: counter-database-6cd48dfc86
+      uid: 4a44b4bd-68e6-4be4-983e-8eeaa6dcb87b
+    resourceVersion: "1051841928"
+    uid: fdb3a019-2e4b-4f34-a573-31960fbcc8dd
+  spec:
+    containers:
+    - env:
+      - name: POSTGRESQL_USER
+        valueFrom:
+          secretKeyRef:
+            key: database-user
+            name: postgresql
+      - name: POSTGRESQL_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: database-password
+            name: postgresql
+      - name: POSTGRESQL_DATABASE
+        valueFrom:
+          secretKeyRef:
+            key: database-name
+            name: postgresql
+      envFrom:
+      - secretRef:
+          name: counter-database
+      image: quay.io/centos7/postgresql-10-centos7:20221109
+      imagePullPolicy: Always
+      name: counter-database
+      ports:
+      - containerPort: 5432
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 600m
+          memory: 768Mi
+        requests:
+          cpu: 10m
+          ephemeral-storage: 100Ki
+          memory: 100Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        runAsNonRoot: true
+        runAsUser: 1001560000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-59l52
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: default-dockercfg-mrxb9
+    - name: ghcr
+    nodeName: worker-0f6e
+    nodeSelector:
+      node-role.kubernetes.io/app: ""
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1001560000
+      seLinuxOptions:
+        level: s0:c40,c0
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: kube-api-access-59l52
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T11:30:06Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T11:34:32Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T11:34:32Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T11:30:06Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://4ffaeecf11a4c0799722c0ea564a2ae4c468783395d21a6aa0786488ab44ad42
+      image: quay.io/centos7/postgresql-10-centos7:20221109
+      imageID: quay.io/centos7/postgresql-10-centos7@sha256:e4d23ff04ed64531e36064a67903be84ca67a3ee673d099767783fac13d12994
+      lastState: {}
+      name: counter-database
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2023-06-23T11:34:31Z"
+    hostIP: 194.182.161.247
+    phase: Running
+    podIP: 10.0.11.30
+    podIPs:
+    - ip: 10.0.11.30
+    qosClass: Burstable
+    startTime: "2023-06-23T11:30:06Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "cilium",
+            "interface": "eth0",
+            "ips": [
+                "10.0.11.184"
+            ],
+            "mac": "b2:ce:72:77:46:9d",
+            "default": true,
+            "dns": {}
+        }]
+      k8s.v1.cni.cncf.io/networks-status: |-
+        [{
+            "name": "cilium",
+            "interface": "eth0",
+            "ips": [
+                "10.0.11.184"
+            ],
+            "mac": "b2:ce:72:77:46:9d",
+            "default": true,
+            "dns": {}
+        }]
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, ephemeral-storage,
+        memory request for container counter-frontend; cpu, memory limit for container
+        counter-frontend'
+      openshift.io/scc: restricted-v2
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    creationTimestamp: "2023-06-23T12:35:50Z"
+    generateName: counter-frontend-6577cd8f4-
+    labels:
+      app: counter-frontend
+      pod-template-hash: 6577cd8f4
+    name: counter-frontend-6577cd8f4-p69sh
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: counter-frontend-6577cd8f4
+      uid: c1977b1b-e6c4-4ad1-b204-aeaa6443703a
+    resourceVersion: "1051970682"
+    uid: 5049923d-c544-43ce-9551-9f44edb56339
+  spec:
+    containers:
+    - image: ghcr.io/detsir/counter-frontend:v3
+      imagePullPolicy: IfNotPresent
+      name: counter-frontend
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 600m
+          memory: 768Mi
+        requests:
+          cpu: 10m
+          ephemeral-storage: 100Ki
+          memory: 100Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        runAsNonRoot: true
+        runAsUser: 1001560000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-h6dvn
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: default-dockercfg-mrxb9
+    - name: ghcr
+    nodeName: worker-0f6e
+    nodeSelector:
+      node-role.kubernetes.io/app: ""
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1001560000
+      seLinuxOptions:
+        level: s0:c40,c0
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: kube-api-access-h6dvn
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T12:35:50Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T12:47:19Z"
+      message: 'containers with unready status: [counter-frontend]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T12:47:19Z"
+      message: 'containers with unready status: [counter-frontend]'
+      reason: ContainersNotReady
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T12:35:50Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://6d2c299dd9ca0461b65478063b9d4f23ce3ec1b11c8d2bcd62bd82c32f3623e8
+      image: ghcr.io/detsir/counter-frontend:v3
+      imageID: ghcr.io/detsir/counter-frontend@sha256:a320edcae7bef6b52499f110b2ad09b4f3e64b201831cdef746200194298c836
+      lastState:
+        terminated:
+          containerID: cri-o://6d2c299dd9ca0461b65478063b9d4f23ce3ec1b11c8d2bcd62bd82c32f3623e8
+          exitCode: 243
+          finishedAt: "2023-06-23T12:47:18Z"
+          reason: Error
+          startedAt: "2023-06-23T12:47:17Z"
+      name: counter-frontend
+      ready: false
+      restartCount: 7
+      started: false
+      state:
+        waiting:
+          message: back-off 5m0s restarting failed container=counter-frontend pod=counter-frontend-6577cd8f4-p69sh_zlic-dparic(5049923d-c544-43ce-9551-9f44edb56339)
+          reason: CrashLoopBackOff
+    hostIP: 194.182.161.247
+    phase: Running
+    podIP: 10.0.11.184
+    podIPs:
+    - ip: 10.0.11.184
+    qosClass: Burstable
+    startTime: "2023-06-23T12:35:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "cilium",
+            "interface": "eth0",
+            "ips": [
+                "10.0.11.116"
+            ],
+            "mac": "12:fd:63:b4:5d:e7",
+            "default": true,
+            "dns": {}
+        }]
+      k8s.v1.cni.cncf.io/networks-status: |-
+        [{
+            "name": "cilium",
+            "interface": "eth0",
+            "ips": [
+                "10.0.11.116"
+            ],
+            "mac": "12:fd:63:b4:5d:e7",
+            "default": true,
+            "dns": {}
+        }]
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, ephemeral-storage,
+        memory request for container counter-postgresadmin; cpu, memory limit for
+        container counter-postgresadmin'
+      openshift.io/generated-by: OpenShiftWebConsole
+      openshift.io/scc: restricted-v2
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    creationTimestamp: "2023-06-23T12:39:11Z"
+    generateName: counter-postgresadmin-7db67cddc9-
+    labels:
+      app: counter-postgresadmin
+      deployment: counter-postgresadmin
+      pod-template-hash: 7db67cddc9
+    name: counter-postgresadmin-7db67cddc9-bqfph
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: counter-postgresadmin-7db67cddc9
+      uid: dff8ff85-171b-4285-812e-244be1b9a59c
+    resourceVersion: "1051956729"
+    uid: ca0226af-30d4-49db-b627-cf0672080ea0
+  spec:
+    containers:
+    - image: image-registry.openshift-image-registry.svc:5000/zlic-dparic/counter-postgresadmin@sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+      imagePullPolicy: Always
+      name: counter-postgresadmin
+      ports:
+      - containerPort: 5050
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 600m
+          memory: 768Mi
+        requests:
+          cpu: 10m
+          ephemeral-storage: 100Ki
+          memory: 100Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        runAsNonRoot: true
+        runAsUser: 1001560000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /pgadmin/
+        name: counter-postgresadmin-1
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-s47p9
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: default-dockercfg-mrxb9
+    - name: ghcr
+    nodeName: worker-0f6e
+    nodeSelector:
+      node-role.kubernetes.io/app: ""
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1001560000
+      seLinuxOptions:
+        level: s0:c40,c0
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - emptyDir: {}
+      name: counter-postgresadmin-1
+    - name: kube-api-access-s47p9
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T12:39:11Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T12:39:13Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T12:39:13Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-23T12:39:11Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://87465ad3c3f69c22e0e4bf1914cf76bbe3593ba266a5d3b58531ee7ca7c18c10
+      image: ghcr.io/yildirrim87/thajeztah/pgadmin:v1
+      imageID: docker.io/thajeztah/pgadmin4@sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+      lastState: {}
+      name: counter-postgresadmin
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2023-06-23T12:39:13Z"
+    hostIP: 194.182.161.247
+    phase: Running
+    podIP: 10.0.11.116
+    podIPs:
+    - ip: 10.0.11.116
+    qosClass: Burstable
+    startTime: "2023-06-23T12:39:11Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "cilium",
+            "interface": "eth0",
+            "ips": [
+                "10.0.11.227"
+            ],
+            "mac": "06:24:fd:50:bb:fa",
+            "default": true,
+            "dns": {}
+        }]
+      k8s.v1.cni.cncf.io/networks-status: |-
+        [{
+            "name": "cilium",
+            "interface": "eth0",
+            "ips": [
+                "10.0.11.227"
+            ],
+            "mac": "06:24:fd:50:bb:fa",
+            "default": true,
+            "dns": {}
+        }]
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, ephemeral-storage,
+        memory request for container sti-build; cpu, memory limit for container sti-build;
+        cpu, ephemeral-storage, memory request for init container git-clone; cpu,
+        memory limit for init container git-clone; cpu, ephemeral-storage, memory
+        request for init container manage-dockerfile; cpu, memory limit for init container
+        manage-dockerfile'
+      openshift.io/build.name: uk109-1
+      openshift.io/scc: privileged-higher-prio
+    creationTimestamp: "2023-06-16T09:16:18Z"
+    labels:
+      openshift.io/build.name: uk109-1
+    name: uk109-1-build
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: Build
+      name: uk109-1
+      uid: 6f4db5fa-ad39-4e21-a561-76dcabc71593
+    resourceVersion: "1034952839"
+    uid: 28784dd6-4bd4-4128-a9e4-75ec639c7964
+  spec:
+    activeDeadlineSeconds: 604800
+    containers:
+    - args:
+      - openshift-sti-build
+      - --v=0
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"uk109-1","namespace":"zlic-dparic","uid":"6f4db5fa-ad39-4e21-a561-76dcabc71593","resourceVersion":"1034951301","generation":1,"creationTimestamp":"2023-06-16T09:16:18Z","labels":{"app":"uk109","app.kubernetes.io/component":"uk109","app.kubernetes.io/instance":"uk109","app.kubernetes.io/name":"uk109","app.kubernetes.io/part-of":"uk109-app","app.openshift.io/runtime":"nginx","app.openshift.io/runtime-version":"1.20-ubi7","buildconfig":"uk109","openshift.io/build-config.name":"uk109","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"uk109","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"uk109","uid":"aed8af16-b36f-4121-9058-6b85304faeb6","controller":true}],"managedFields":[{"manager":"Go-http-client","operation":"Update","apiVersion":"build.openshift.io/v1","time":"2023-06-16T09:16:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:openshift.io/build-config.name":{},"f:openshift.io/build.number":{}},"f:labels":{".":{},"f:app":{},"f:app.kubernetes.io/component":{},"f:app.kubernetes.io/instance":{},"f:app.kubernetes.io/name":{},"f:app.kubernetes.io/part-of":{},"f:app.openshift.io/runtime":{},"f:app.openshift.io/runtime-version":{},"f:buildconfig":{},"f:openshift.io/build-config.name":{},"f:openshift.io/build.start-policy":{}},"f:ownerReferences":{".":{},"k:{\"uid\":\"aed8af16-b36f-4121-9058-6b85304faeb6\"}":{}}},"f:spec":{"f:output":{"f:to":{}},"f:serviceAccount":{},"f:source":{"f:contextDir":{},"f:git":{".":{},"f:uri":{}},"f:type":{}},"f:strategy":{"f:sourceStrategy":{".":{},"f:from":{},"f:pullSecret":{}},"f:type":{}},"f:triggeredBy":{}},"f:status":{"f:conditions":{".":{},"k:{\"type\":\"New\"}":{".":{},"f:lastTransitionTime":{},"f:lastUpdateTime":{},"f:status":{},"f:type":{}}},"f:config":{},"f:phase":{}}}}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/detsir/uk109"},"contextDir":"/"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9"},"pullSecret":{"name":"builder-dockercfg-thrp6"}}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109:latest"},"pushSecret":{"name":"builder-dockercfg-thrp6"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"nginx:1.20-ubi7"}}}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109:latest","config":{"kind":"BuildConfig","namespace":"zlic-dparic","name":"uk109"},"output":{},"conditions":[{"type":"New","status":"True","lastUpdateTime":"2023-06-16T09:16:18Z","lastTransitionTime":"2023-06-16T09:16:18Z"}]}}
+      - name: LANG
+        value: C.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/detsir/uk109
+      - name: SOURCE_URI
+        value: https://github.com/detsir/uk109
+      - name: SOURCE_CONTEXT_DIR
+        value: /
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      - name: PULL_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/pull
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_STORAGE_DRIVER
+        value: overlay
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      - name: HTTP_PROXY
+      - name: HTTPS_PROXY
+      - name: NO_PROXY
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      imagePullPolicy: IfNotPresent
+      name: sti-build
+      resources:
+        limits:
+          cpu: 600m
+          memory: 768Mi
+        requests:
+          cpu: 10m
+          ephemeral-storage: 100Ki
+          memory: 100Mi
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /var/lib/kubelet/config.json
+        name: node-pullsecrets
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/lib/containers/cache
+        name: buildcachedir
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-thrp6-push
+        readOnly: true
+      - mountPath: /var/run/secrets/openshift.io/pull
+        name: builder-dockercfg-thrp6-pull
+        readOnly: true
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/run/configs/openshift.io/certs
+        name: build-ca-bundles
+      - mountPath: /var/run/configs/openshift.io/pki
+        name: build-proxy-ca-bundles
+      - mountPath: /var/lib/containers/storage
+        name: container-storage-root
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qqp8z
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: builder-dockercfg-thrp6
+    initContainers:
+    - args:
+      - openshift-git-clone
+      - --v=0
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"uk109-1","namespace":"zlic-dparic","uid":"6f4db5fa-ad39-4e21-a561-76dcabc71593","resourceVersion":"1034951301","generation":1,"creationTimestamp":"2023-06-16T09:16:18Z","labels":{"app":"uk109","app.kubernetes.io/component":"uk109","app.kubernetes.io/instance":"uk109","app.kubernetes.io/name":"uk109","app.kubernetes.io/part-of":"uk109-app","app.openshift.io/runtime":"nginx","app.openshift.io/runtime-version":"1.20-ubi7","buildconfig":"uk109","openshift.io/build-config.name":"uk109","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"uk109","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"uk109","uid":"aed8af16-b36f-4121-9058-6b85304faeb6","controller":true}],"managedFields":[{"manager":"Go-http-client","operation":"Update","apiVersion":"build.openshift.io/v1","time":"2023-06-16T09:16:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:openshift.io/build-config.name":{},"f:openshift.io/build.number":{}},"f:labels":{".":{},"f:app":{},"f:app.kubernetes.io/component":{},"f:app.kubernetes.io/instance":{},"f:app.kubernetes.io/name":{},"f:app.kubernetes.io/part-of":{},"f:app.openshift.io/runtime":{},"f:app.openshift.io/runtime-version":{},"f:buildconfig":{},"f:openshift.io/build-config.name":{},"f:openshift.io/build.start-policy":{}},"f:ownerReferences":{".":{},"k:{\"uid\":\"aed8af16-b36f-4121-9058-6b85304faeb6\"}":{}}},"f:spec":{"f:output":{"f:to":{}},"f:serviceAccount":{},"f:source":{"f:contextDir":{},"f:git":{".":{},"f:uri":{}},"f:type":{}},"f:strategy":{"f:sourceStrategy":{".":{},"f:from":{},"f:pullSecret":{}},"f:type":{}},"f:triggeredBy":{}},"f:status":{"f:conditions":{".":{},"k:{\"type\":\"New\"}":{".":{},"f:lastTransitionTime":{},"f:lastUpdateTime":{},"f:status":{},"f:type":{}}},"f:config":{},"f:phase":{}}}}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/detsir/uk109"},"contextDir":"/"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9"},"pullSecret":{"name":"builder-dockercfg-thrp6"}}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109:latest"},"pushSecret":{"name":"builder-dockercfg-thrp6"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"nginx:1.20-ubi7"}}}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109:latest","config":{"kind":"BuildConfig","namespace":"zlic-dparic","name":"uk109"},"output":{},"conditions":[{"type":"New","status":"True","lastUpdateTime":"2023-06-16T09:16:18Z","lastTransitionTime":"2023-06-16T09:16:18Z"}]}}
+      - name: LANG
+        value: C.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/detsir/uk109
+      - name: SOURCE_URI
+        value: https://github.com/detsir/uk109
+      - name: SOURCE_CONTEXT_DIR
+        value: /
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      - name: HTTP_PROXY
+      - name: HTTPS_PROXY
+      - name: NO_PROXY
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      imagePullPolicy: IfNotPresent
+      name: git-clone
+      resources:
+        limits:
+          cpu: 600m
+          memory: 768Mi
+        requests:
+          cpu: 10m
+          ephemeral-storage: 100Ki
+          memory: 100Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/run/configs/openshift.io/certs
+        name: build-ca-bundles
+      - mountPath: /var/run/configs/openshift.io/pki
+        name: build-proxy-ca-bundles
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qqp8z
+        readOnly: true
+    - args:
+      - openshift-manage-dockerfile
+      - --v=0
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"uk109-1","namespace":"zlic-dparic","uid":"6f4db5fa-ad39-4e21-a561-76dcabc71593","resourceVersion":"1034951301","generation":1,"creationTimestamp":"2023-06-16T09:16:18Z","labels":{"app":"uk109","app.kubernetes.io/component":"uk109","app.kubernetes.io/instance":"uk109","app.kubernetes.io/name":"uk109","app.kubernetes.io/part-of":"uk109-app","app.openshift.io/runtime":"nginx","app.openshift.io/runtime-version":"1.20-ubi7","buildconfig":"uk109","openshift.io/build-config.name":"uk109","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"uk109","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"uk109","uid":"aed8af16-b36f-4121-9058-6b85304faeb6","controller":true}],"managedFields":[{"manager":"Go-http-client","operation":"Update","apiVersion":"build.openshift.io/v1","time":"2023-06-16T09:16:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:openshift.io/build-config.name":{},"f:openshift.io/build.number":{}},"f:labels":{".":{},"f:app":{},"f:app.kubernetes.io/component":{},"f:app.kubernetes.io/instance":{},"f:app.kubernetes.io/name":{},"f:app.kubernetes.io/part-of":{},"f:app.openshift.io/runtime":{},"f:app.openshift.io/runtime-version":{},"f:buildconfig":{},"f:openshift.io/build-config.name":{},"f:openshift.io/build.start-policy":{}},"f:ownerReferences":{".":{},"k:{\"uid\":\"aed8af16-b36f-4121-9058-6b85304faeb6\"}":{}}},"f:spec":{"f:output":{"f:to":{}},"f:serviceAccount":{},"f:source":{"f:contextDir":{},"f:git":{".":{},"f:uri":{}},"f:type":{}},"f:strategy":{"f:sourceStrategy":{".":{},"f:from":{},"f:pullSecret":{}},"f:type":{}},"f:triggeredBy":{}},"f:status":{"f:conditions":{".":{},"k:{\"type\":\"New\"}":{".":{},"f:lastTransitionTime":{},"f:lastUpdateTime":{},"f:status":{},"f:type":{}}},"f:config":{},"f:phase":{}}}}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/detsir/uk109"},"contextDir":"/"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9"},"pullSecret":{"name":"builder-dockercfg-thrp6"}}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109:latest"},"pushSecret":{"name":"builder-dockercfg-thrp6"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"nginx:1.20-ubi7"}}}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109:latest","config":{"kind":"BuildConfig","namespace":"zlic-dparic","name":"uk109"},"output":{},"conditions":[{"type":"New","status":"True","lastUpdateTime":"2023-06-16T09:16:18Z","lastTransitionTime":"2023-06-16T09:16:18Z"}]}}
+      - name: LANG
+        value: C.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/detsir/uk109
+      - name: SOURCE_URI
+        value: https://github.com/detsir/uk109
+      - name: SOURCE_CONTEXT_DIR
+        value: /
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      - name: HTTP_PROXY
+      - name: HTTPS_PROXY
+      - name: NO_PROXY
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      imagePullPolicy: IfNotPresent
+      name: manage-dockerfile
+      resources:
+        limits:
+          cpu: 600m
+          memory: 768Mi
+        requests:
+          cpu: 10m
+          ephemeral-storage: 100Ki
+          memory: 100Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/run/configs/openshift.io/certs
+        name: build-ca-bundles
+      - mountPath: /var/run/configs/openshift.io/pki
+        name: build-proxy-ca-bundles
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qqp8z
+        readOnly: true
+    nodeName: worker-0f6e
+    nodeSelector:
+      kubernetes.io/os: linux
+      node-role.kubernetes.io/app: ""
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/lib/kubelet/config.json
+        type: File
+      name: node-pullsecrets
+    - hostPath:
+        path: /var/lib/containers/cache
+        type: ""
+      name: buildcachedir
+    - emptyDir: {}
+      name: buildworkdir
+    - name: builder-dockercfg-thrp6-push
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-thrp6
+    - name: builder-dockercfg-thrp6-pull
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-thrp6
+    - configMap:
+        defaultMode: 420
+        name: uk109-1-sys-config
+      name: build-system-configs
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: service-ca.crt
+          path: certs.d/image-registry.openshift-image-registry.svc:5000/ca.crt
+        name: uk109-1-ca
+      name: build-ca-bundles
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: ca-bundle.crt
+          path: tls-ca-bundle.pem
+        name: uk109-1-global-ca
+      name: build-proxy-ca-bundles
+    - emptyDir: {}
+      name: container-storage-root
+    - emptyDir: {}
+      name: build-blob-cache
+    - name: kube-api-access-qqp8z
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-16T09:16:23Z"
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-16T09:17:06Z"
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-16T09:17:06Z"
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-06-16T09:16:18Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://7d7a7cedb12980c298e132772a2b891538ff625fdbb465ed136507f1274184b6
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      lastState: {}
+      name: sti-build
+      ready: false
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: cri-o://7d7a7cedb12980c298e132772a2b891538ff625fdbb465ed136507f1274184b6
+          exitCode: 0
+          finishedAt: "2023-06-16T09:17:05Z"
+          reason: Completed
+          startedAt: "2023-06-16T09:16:23Z"
+    hostIP: 194.182.161.247
+    initContainerStatuses:
+    - containerID: cri-o://994dcc3d3c54c2ffcadcbd4a26e69c874720ca79a78bb39dd7bb97c20da614db
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      lastState: {}
+      name: git-clone
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://994dcc3d3c54c2ffcadcbd4a26e69c874720ca79a78bb39dd7bb97c20da614db
+          exitCode: 0
+          finishedAt: "2023-06-16T09:16:21Z"
+          reason: Completed
+          startedAt: "2023-06-16T09:16:20Z"
+    - containerID: cri-o://21aa8ee1742abe2a305d5642873d236c1ac7c92c5de78acbbb8c39e67cae4210
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:415b376e7bc5c29c127c98c0d2a1d0fd2d6590e61d12bcf58413a72433acafcc
+      lastState: {}
+      name: manage-dockerfile
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://21aa8ee1742abe2a305d5642873d236c1ac7c92c5de78acbbb8c39e67cae4210
+          exitCode: 0
+          finishedAt: "2023-06-16T09:16:22Z"
+          reason: Completed
+          startedAt: "2023-06-16T09:16:22Z"
+    phase: Succeeded
+    podIP: 10.0.11.227
+    podIPs:
+    - ip: 10.0.11.227
+    qosClass: Burstable
+    startTime: "2023-06-16T09:16:18Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2023-06-23T10:48:56Z"
+    name: counter-backend
+    namespace: zlic-dparic
+    resourceVersion: "1051754356"
+    uid: dd8be5c0-7fb0-46bf-8ba0-f53a92051fa9
+  spec:
+    clusterIP: 172.30.22.122
+    clusterIPs:
+    - 172.30.22.122
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: counter-backend
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2023-06-23T09:54:17Z"
+    name: counter-database
+    namespace: zlic-dparic
+    resourceVersion: "1051654570"
+    uid: aa28f660-e611-4e0d-951d-26001693c832
+  spec:
+    clusterIP: 172.30.3.114
+    clusterIPs:
+    - 172.30.3.114
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: counter-database
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2023-06-23T12:36:32Z"
+    name: counter-frontend
+    namespace: zlic-dparic
+    resourceVersion: "1051952146"
+    uid: 958b2e30-3a11-4b5b-b1cd-ecb8aad65ab4
+  spec:
+    clusterIP: 172.30.4.22
+    clusterIPs:
+    - 172.30.4.22
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: counter-frontend
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-23T12:39:11Z"
+    labels:
+      app: counter-postgresadmin
+      app.kubernetes.io/component: counter-postgresadmin
+      app.kubernetes.io/instance: counter-postgresadmin
+      app.kubernetes.io/name: counter-postgresadmin
+      app.openshift.io/runtime-version: latest
+    name: counter-postgresadmin
+    namespace: zlic-dparic
+    resourceVersion: "1051956624"
+    uid: 65cabb83-7058-4521-a733-ddfcd2118cdb
+  spec:
+    clusterIP: 172.30.49.108
+    clusterIPs:
+    - 172.30.49.108
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: 5050-tcp
+      port: 5050
+      protocol: TCP
+      targetPort: 5050
+    selector:
+      app: counter-postgresadmin
+      deployment: counter-postgresadmin
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-16T10:50:00Z"
+    labels:
+      app: pgadmin4
+      app.kubernetes.io/component: pgadmin4
+      app.kubernetes.io/instance: pgadmin4
+      app.kubernetes.io/name: pgadmin4
+      app.kubernetes.io/part-of: uk109-app
+      app.openshift.io/runtime-version: latest
+    name: pgadmin4
+    namespace: zlic-dparic
+    resourceVersion: "1035107837"
+    uid: df445bc3-856b-4744-bc86-2369bc78c3f6
+  spec:
+    clusterIP: 172.30.109.233
+    clusterIPs:
+    - 172.30.109.233
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: 5050-tcp
+      port: 5050
+      protocol: TCP
+      targetPort: 5050
+    selector:
+      app: pgadmin4
+      deployment: pgadmin4
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
+    creationTimestamp: "2023-06-16T10:50:36Z"
+    labels:
+      template: postgresql-persistent-template
+      template.openshift.io/template-instance-owner: 3c79b44f-b920-430e-b750-1fdbea4573d5
+    name: postgresql
+    namespace: zlic-dparic
+    resourceVersion: "1035108883"
+    uid: ade037e5-1602-4cde-8c6b-3609afc34e62
+  spec:
+    clusterIP: 172.30.89.18
+    clusterIPs:
+    - 172.30.89.18
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: postgresql
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      name: postgresql
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "3"
+    creationTimestamp: "2023-06-23T11:59:17Z"
+    generation: 9
+    labels:
+      app: counter-backend
+    name: counter-backend
+    namespace: zlic-dparic
+    resourceVersion: "1051901184"
+    uid: b15fc772-f745-4253-ab58-ca3615787e41
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: counter-backend
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: counter-backend
+      spec:
+        containers:
+        - env:
+          - name: npm_config_cache
+            value: ./.npm-cache
+          - name: NODE_ENV
+            value: production
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: counter-database
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: counter-database
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: counter-database
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: database-host
+                name: counter-config
+          image: ghcr.io/detsir/counterbackend:v2
+          imagePullPolicy: Always
+          name: counter-backend
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2023-06-23T11:59:17Z"
+      lastUpdateTime: "2023-06-23T12:03:32Z"
+      message: ReplicaSet "counter-backend-849d5ccb7f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2023-06-23T12:07:07Z"
+      lastUpdateTime: "2023-06-23T12:07:07Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 9
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2023-06-23T09:54:17Z"
+    generation: 7
+    name: counter-database
+    namespace: zlic-dparic
+    resourceVersion: "1051841934"
+    uid: 23a2b697-7ecd-42ee-a132-96150d96e1e5
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: counter-database
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: counter-database
+      spec:
+        containers:
+        - env:
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: postgresql
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: postgresql
+          - name: POSTGRESQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: postgresql
+          envFrom:
+          - secretRef:
+              name: counter-database
+          image: quay.io/centos7/postgresql-10-centos7:20221109
+          imagePullPolicy: Always
+          name: counter-database
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2023-06-23T11:34:32Z"
+      lastUpdateTime: "2023-06-23T11:34:32Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2023-06-23T09:54:17Z"
+      lastUpdateTime: "2023-06-23T11:34:32Z"
+      message: ReplicaSet "counter-database-6cd48dfc86" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 7
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2023-06-23T12:35:50Z"
+    generation: 1
+    name: counter-frontend
+    namespace: zlic-dparic
+    resourceVersion: "1051970326"
+    uid: c5cc6c6b-0484-498c-983b-a168602a6be5
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: counter-frontend
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: counter-frontend
+      spec:
+        containers:
+        - image: ghcr.io/detsir/counter-frontend:v3
+          imagePullPolicy: IfNotPresent
+          name: counter-frontend
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2023-06-23T12:35:50Z"
+      lastUpdateTime: "2023-06-23T12:36:22Z"
+      message: ReplicaSet "counter-frontend-6577cd8f4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2023-06-23T12:47:19Z"
+      lastUpdateTime: "2023-06-23T12:47:19Z"
+      message: Deployment does not have minimum availability.
+      reason: MinimumReplicasUnavailable
+      status: "False"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+      app.openshift.io/route-disabled: "false"
+      deployment.kubernetes.io/revision: "1"
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"counter-postgresadmin:latest","namespace":"zlic-dparic"},"fieldPath":"spec.template.spec.containers[?(@.name==\"counter-postgresadmin\")].image","pause":"false"}]'
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-23T12:39:11Z"
+    generation: 1
+    labels:
+      app: counter-postgresadmin
+      app.kubernetes.io/component: counter-postgresadmin
+      app.kubernetes.io/instance: counter-postgresadmin
+      app.kubernetes.io/name: counter-postgresadmin
+      app.openshift.io/runtime-namespace: zlic-dparic
+    name: counter-postgresadmin
+    namespace: zlic-dparic
+    resourceVersion: "1051956734"
+    uid: 3678e13c-5746-4755-b0cc-dceb6fddec7a
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: counter-postgresadmin
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftWebConsole
+        creationTimestamp: null
+        labels:
+          app: counter-postgresadmin
+          deployment: counter-postgresadmin
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/zlic-dparic/counter-postgresadmin@sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+          imagePullPolicy: Always
+          name: counter-postgresadmin
+          ports:
+          - containerPort: 5050
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /pgadmin/
+            name: counter-postgresadmin-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: counter-postgresadmin-1
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2023-06-23T12:39:13Z"
+      lastUpdateTime: "2023-06-23T12:39:13Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2023-06-23T12:39:11Z"
+      lastUpdateTime: "2023-06-23T12:39:13Z"
+      message: ReplicaSet "counter-postgresadmin-7db67cddc9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+      app.openshift.io/route-disabled: "false"
+      deployment.kubernetes.io/revision: "1"
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"pgadmin4:latest","namespace":"zlic-dparic"},"fieldPath":"spec.template.spec.containers[?(@.name==\"pgadmin4\")].image","pause":"false"}]'
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-16T10:50:00Z"
+    generation: 4
+    labels:
+      app: pgadmin4
+      app.kubernetes.io/component: pgadmin4
+      app.kubernetes.io/instance: pgadmin4
+      app.kubernetes.io/name: pgadmin4
+      app.kubernetes.io/part-of: uk109-app
+      app.openshift.io/runtime-namespace: zlic-dparic
+    name: pgadmin4
+    namespace: zlic-dparic
+    resourceVersion: "1051228204"
+    uid: 049ba4a6-8910-4a69-a720-0dae1d3d2c65
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: pgadmin4
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftWebConsole
+        creationTimestamp: null
+        labels:
+          app: pgadmin4
+          deployment: pgadmin4
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/zlic-dparic/pgadmin4@sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+          imagePullPolicy: Always
+          name: pgadmin4
+          ports:
+          - containerPort: 5050
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /pgadmin/
+            name: pgadmin4-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: pgadmin4-1
+  status:
+    conditions:
+    - lastTransitionTime: "2023-06-16T10:50:00Z"
+      lastUpdateTime: "2023-06-16T10:50:03Z"
+      message: ReplicaSet "pgadmin4-c9884fc7" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2023-06-22T09:28:24Z"
+      lastUpdateTime: "2023-06-22T09:28:24Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 4
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+      app.openshift.io/route-disabled: "false"
+      app.openshift.io/vcs-ref: ""
+      app.openshift.io/vcs-uri: https://github.com/detsir/uk109
+      deployment.kubernetes.io/revision: "2"
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"uk109:latest","namespace":"zlic-dparic"},"fieldPath":"spec.template.spec.containers[?(@.name==\"uk109\")].image","pause":"false"}]'
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-16T09:16:18Z"
+    generation: 3
+    labels:
+      app: uk109
+      app.kubernetes.io/component: uk109
+      app.kubernetes.io/instance: uk109
+      app.kubernetes.io/name: uk109
+      app.kubernetes.io/part-of: uk109-app
+      app.openshift.io/runtime: nginx
+      app.openshift.io/runtime-version: 1.20-ubi7
+    name: uk109
+    namespace: zlic-dparic
+    resourceVersion: "1035479924"
+    uid: a4f8d26b-088e-456e-9d13-58b1526d6526
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: uk109
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: uk109
+          deployment: uk109
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109@sha256:f577d3a917bf863008b946bc936559d0c888cca9b120e914ecc99f4131c95e8d
+          imagePullPolicy: Always
+          name: uk109
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2023-06-16T09:17:07Z"
+      lastUpdateTime: "2023-06-16T09:17:07Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2023-06-16T09:16:18Z"
+      lastUpdateTime: "2023-06-16T09:17:07Z"
+      message: ReplicaSet "uk109-b5484ccf9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 3
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2023-06-23T12:02:15Z"
+    generation: 3
+    labels:
+      app: counter-backend
+      pod-template-hash: 6cc65db4c7
+    name: counter-backend-6cc65db4c7
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: counter-backend
+      uid: b15fc772-f745-4253-ab58-ca3615787e41
+    resourceVersion: "1051893256"
+    uid: 12c6d736-25a8-4640-8e94-5d49fa2afb4c
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: counter-backend
+        pod-template-hash: 6cc65db4c7
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: counter-backend
+          pod-template-hash: 6cc65db4c7
+      spec:
+        containers:
+        - env:
+          - name: npm_config_cache
+            value: ./.npm-cache
+          - name: NODE_ENV
+            value: production
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: counter-database
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: counter-database
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: counter-database
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: database-host
+                name: counter-config
+          - name: PASSPHRASE
+            valueFrom:
+              secretKeyRef:
+                key: passphrase
+                name: counter-test-secret
+          image: ghcr.io/detsir/counterbackend:v2
+          imagePullPolicy: Always
+          name: counter-backend
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2023-06-23T11:59:17Z"
+    generation: 3
+    labels:
+      app: counter-backend
+      pod-template-hash: 6f4f46c6b4
+    name: counter-backend-6f4f46c6b4
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: counter-backend
+      uid: b15fc772-f745-4253-ab58-ca3615787e41
+    resourceVersion: "1051888199"
+    uid: de7d83e2-853f-4e12-a0bf-b3c305ee57ad
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: counter-backend
+        pod-template-hash: 6f4f46c6b4
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: counter-backend
+          pod-template-hash: 6f4f46c6b4
+      spec:
+        containers:
+        - env:
+          - name: npm_config_cache
+            value: ./.npm-cache
+          - name: NODE_ENV
+            value: production
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: counter-database
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: counter-database
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: counter-database
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: database-host
+                name: counter-config
+          - name: PASSPHRASE
+            valueFrom:
+              secretKeyRef:
+                key: passphrase
+                name: counter-test-secret
+          image: ghcr.io/modul-i-ch-109/kube_solution/counter_backend:latest
+          imagePullPolicy: Always
+          name: counter-backend
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "3"
+    creationTimestamp: "2023-06-23T12:03:32Z"
+    generation: 3
+    labels:
+      app: counter-backend
+      pod-template-hash: 849d5ccb7f
+    name: counter-backend-849d5ccb7f
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: counter-backend
+      uid: b15fc772-f745-4253-ab58-ca3615787e41
+    resourceVersion: "1051901182"
+    uid: b1fe5d8b-a66a-42b1-b702-676115b822e4
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: counter-backend
+        pod-template-hash: 849d5ccb7f
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: counter-backend
+          pod-template-hash: 849d5ccb7f
+      spec:
+        containers:
+        - env:
+          - name: npm_config_cache
+            value: ./.npm-cache
+          - name: NODE_ENV
+            value: production
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: counter-database
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: counter-database
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: counter-database
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: database-host
+                name: counter-config
+          image: ghcr.io/detsir/counterbackend:v2
+          imagePullPolicy: Always
+          name: counter-backend
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2023-06-23T11:30:06Z"
+    generation: 5
+    labels:
+      app: counter-database
+      pod-template-hash: 6cd48dfc86
+    name: counter-database-6cd48dfc86
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: counter-database
+      uid: 23a2b697-7ecd-42ee-a132-96150d96e1e5
+    resourceVersion: "1051841930"
+    uid: 4a44b4bd-68e6-4be4-983e-8eeaa6dcb87b
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: counter-database
+        pod-template-hash: 6cd48dfc86
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: counter-database
+          pod-template-hash: 6cd48dfc86
+      spec:
+        containers:
+        - env:
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: postgresql
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: postgresql
+          - name: POSTGRESQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: postgresql
+          envFrom:
+          - secretRef:
+              name: counter-database
+          image: quay.io/centos7/postgresql-10-centos7:20221109
+          imagePullPolicy: Always
+          name: counter-database
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 5
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2023-06-23T12:35:50Z"
+    generation: 1
+    labels:
+      app: counter-frontend
+      pod-template-hash: 6577cd8f4
+    name: counter-frontend-6577cd8f4
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: counter-frontend
+      uid: c5cc6c6b-0484-498c-983b-a168602a6be5
+    resourceVersion: "1051970323"
+    uid: c1977b1b-e6c4-4ad1-b204-aeaa6443703a
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: counter-frontend
+        pod-template-hash: 6577cd8f4
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: counter-frontend
+          pod-template-hash: 6577cd8f4
+      spec:
+        containers:
+        - image: ghcr.io/detsir/counter-frontend:v3
+          imagePullPolicy: IfNotPresent
+          name: counter-frontend
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+      app.openshift.io/route-disabled: "false"
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"counter-postgresadmin:latest","namespace":"zlic-dparic"},"fieldPath":"spec.template.spec.containers[?(@.name==\"counter-postgresadmin\")].image","pause":"false"}]'
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-23T12:39:11Z"
+    generation: 1
+    labels:
+      app: counter-postgresadmin
+      deployment: counter-postgresadmin
+      pod-template-hash: 7db67cddc9
+    name: counter-postgresadmin-7db67cddc9
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: counter-postgresadmin
+      uid: 3678e13c-5746-4755-b0cc-dceb6fddec7a
+    resourceVersion: "1051956731"
+    uid: dff8ff85-171b-4285-812e-244be1b9a59c
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: counter-postgresadmin
+        pod-template-hash: 7db67cddc9
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftWebConsole
+        creationTimestamp: null
+        labels:
+          app: counter-postgresadmin
+          deployment: counter-postgresadmin
+          pod-template-hash: 7db67cddc9
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/zlic-dparic/counter-postgresadmin@sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+          imagePullPolicy: Always
+          name: counter-postgresadmin
+          ports:
+          - containerPort: 5050
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /pgadmin/
+            name: counter-postgresadmin-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: counter-postgresadmin-1
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+      app.openshift.io/route-disabled: "false"
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "1"
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"pgadmin4:latest","namespace":"zlic-dparic"},"fieldPath":"spec.template.spec.containers[?(@.name==\"pgadmin4\")].image","pause":"false"}]'
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-16T10:50:00Z"
+    generation: 4
+    labels:
+      app: pgadmin4
+      deployment: pgadmin4
+      pod-template-hash: c9884fc7
+    name: pgadmin4-c9884fc7
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: pgadmin4
+      uid: 049ba4a6-8910-4a69-a720-0dae1d3d2c65
+    resourceVersion: "1051228194"
+    uid: 684a2ca5-9a0e-4fef-83d3-2a444ef2b813
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: pgadmin4
+        pod-template-hash: c9884fc7
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftWebConsole
+        creationTimestamp: null
+        labels:
+          app: pgadmin4
+          deployment: pgadmin4
+          pod-template-hash: c9884fc7
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/zlic-dparic/pgadmin4@sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+          imagePullPolicy: Always
+          name: pgadmin4
+          ports:
+          - containerPort: 5050
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /pgadmin/
+            name: pgadmin4-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: pgadmin4-1
+  status:
+    observedGeneration: 4
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+      app.openshift.io/route-disabled: "false"
+      app.openshift.io/vcs-ref: ""
+      app.openshift.io/vcs-uri: https://github.com/detsir/uk109
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"uk109:latest","namespace":"zlic-dparic"},"fieldPath":"spec.template.spec.containers[?(@.name==\"uk109\")].image","pause":"false"}]'
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-16T09:16:18Z"
+    generation: 2
+    labels:
+      app: uk109
+      deployment: uk109
+      pod-template-hash: 5bb5659ccd
+    name: uk109-5bb5659ccd
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: uk109
+      uid: a4f8d26b-088e-456e-9d13-58b1526d6526
+    resourceVersion: "1034952803"
+    uid: 275e499a-3c3c-49de-90d5-5a324eb3f30e
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: uk109
+        pod-template-hash: 5bb5659ccd
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: uk109
+          deployment: uk109
+          pod-template-hash: 5bb5659ccd
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109:latest
+          imagePullPolicy: Always
+          name: uk109
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+      app.openshift.io/route-disabled: "false"
+      app.openshift.io/vcs-ref: ""
+      app.openshift.io/vcs-uri: https://github.com/detsir/uk109
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "2"
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"uk109:latest","namespace":"zlic-dparic"},"fieldPath":"spec.template.spec.containers[?(@.name==\"uk109\")].image","pause":"false"}]'
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-16T09:17:05Z"
+    generation: 2
+    labels:
+      app: uk109
+      deployment: uk109
+      pod-template-hash: b5484ccf9
+    name: uk109-b5484ccf9
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: uk109
+      uid: a4f8d26b-088e-456e-9d13-58b1526d6526
+    resourceVersion: "1035479922"
+    uid: 46ce9bed-2202-483f-99e7-445905df67f9
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: uk109
+        pod-template-hash: b5484ccf9
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: uk109
+          deployment: uk109
+          pod-template-hash: b5484ccf9
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109@sha256:f577d3a917bf863008b946bc936559d0c888cca9b120e914ecc99f4131c95e8d
+          imagePullPolicy: Always
+          name: uk109
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      app.openshift.io/vcs-ref: ""
+      app.openshift.io/vcs-uri: https://github.com/detsir/uk109
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-16T09:16:18Z"
+    generation: 2
+    labels:
+      app: uk109
+      app.kubernetes.io/component: uk109
+      app.kubernetes.io/instance: uk109
+      app.kubernetes.io/name: uk109
+      app.kubernetes.io/part-of: uk109-app
+      app.openshift.io/runtime: nginx
+      app.openshift.io/runtime-version: 1.20-ubi7
+    name: uk109
+    namespace: zlic-dparic
+    resourceVersion: "1034951298"
+    uid: aed8af16-b36f-4121-9058-6b85304faeb6
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: uk109:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: /
+      git:
+        uri: https://github.com/detsir/uk109
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: nginx:1.20-ubi7
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - generic:
+        secretReference:
+          name: uk109-generic-webhook-secret
+      type: Generic
+    - github:
+        secretReference:
+          name: uk109-github-webhook-secret
+      type: GitHub
+    - imageChange: {}
+      type: ImageChange
+    - type: ConfigChange
+  status:
+    imageChangeTriggers:
+    - from:
+        name: nginx:1.20-ubi7
+        namespace: openshift
+      lastTriggerTime: "2023-06-16T09:16:18Z"
+      lastTriggeredImageID: image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9
+    lastVersion: 1
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: uk109
+      openshift.io/build.number: "1"
+      openshift.io/build.pod-name: uk109-1-build
+    creationTimestamp: "2023-06-16T09:16:18Z"
+    generation: 2
+    labels:
+      app: uk109
+      app.kubernetes.io/component: uk109
+      app.kubernetes.io/instance: uk109
+      app.kubernetes.io/name: uk109
+      app.kubernetes.io/part-of: uk109-app
+      app.openshift.io/runtime: nginx
+      app.openshift.io/runtime-version: 1.20-ubi7
+      buildconfig: uk109
+      openshift.io/build-config.name: uk109
+      openshift.io/build.start-policy: Serial
+    name: uk109-1
+    namespace: zlic-dparic
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: uk109
+      uid: aed8af16-b36f-4121-9058-6b85304faeb6
+    resourceVersion: "1034952842"
+    uid: 6f4db5fa-ad39-4e21-a561-76dcabc71593
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-thrp6
+      to:
+        kind: ImageStreamTag
+        name: uk109:latest
+    postCommit: {}
+    resources: {}
+    revision:
+      git:
+        author:
+          email: danielparic@gmx.ch
+          name: detsir
+        commit: 642c9ea96a4a42d8fd844fd1ff6d8c6b9a42108e
+        committer:
+          email: danielparic@gmx.ch
+          name: detsir
+        message: second commit
+      type: Git
+    serviceAccount: builder
+    source:
+      contextDir: /
+      git:
+        uri: https://github.com/detsir/uk109
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9
+        pullSecret:
+          name: builder-dockercfg-thrp6
+      type: Source
+    triggeredBy:
+    - imageChangeBuild:
+        fromRef:
+          kind: ImageStreamTag
+          name: nginx:1.20-ubi7
+          namespace: openshift
+        imageID: image-registry.openshift-image-registry.svc:5000/openshift/nginx@sha256:6a47481f952d8fd6109f743a2ab1fb09e409c6e9bac18923c802eef2a00136a9
+      message: Image change
+  status:
+    completionTimestamp: "2023-06-16T09:17:08Z"
+    conditions:
+    - lastTransitionTime: "2023-06-16T09:16:18Z"
+      lastUpdateTime: "2023-06-16T09:16:18Z"
+      status: "False"
+      type: New
+    - lastTransitionTime: "2023-06-16T09:16:21Z"
+      lastUpdateTime: "2023-06-16T09:16:21Z"
+      status: "False"
+      type: Pending
+    - lastTransitionTime: "2023-06-16T09:17:08Z"
+      lastUpdateTime: "2023-06-16T09:17:08Z"
+      status: "False"
+      type: Running
+    - lastTransitionTime: "2023-06-16T09:17:08Z"
+      lastUpdateTime: "2023-06-16T09:17:08Z"
+      status: "True"
+      type: Complete
+    config:
+      kind: BuildConfig
+      name: uk109
+      namespace: zlic-dparic
+    duration: 50000000000
+    output:
+      to:
+        imageDigest: sha256:f577d3a917bf863008b946bc936559d0c888cca9b120e914ecc99f4131c95e8d
+    outputDockerImageReference: image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109:latest
+    phase: Complete
+    stages:
+    - durationMilliseconds: 635
+      name: FetchInputs
+      startTime: "2023-06-16T09:16:20Z"
+      steps:
+      - durationMilliseconds: 635
+        name: FetchGitSource
+        startTime: "2023-06-16T09:16:20Z"
+    - durationMilliseconds: 31344
+      name: PullImages
+      startTime: "2023-06-16T09:16:23Z"
+      steps:
+      - durationMilliseconds: 31344
+        name: PullBaseImage
+        startTime: "2023-06-16T09:16:23Z"
+    - durationMilliseconds: 7136
+      name: Build
+      startTime: "2023-06-16T09:16:54Z"
+      steps:
+      - durationMilliseconds: 7136
+        name: DockerBuild
+        startTime: "2023-06-16T09:16:54Z"
+    - durationMilliseconds: 3701
+      name: PushImage
+      startTime: "2023-06-16T09:17:02Z"
+      steps:
+      - durationMilliseconds: 3701
+        name: PushImage
+        startTime: "2023-06-16T09:17:02Z"
+    startTimestamp: "2023-06-16T09:16:18Z"
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/image.dockerRepositoryCheck: "2023-06-23T12:39:11Z"
+    creationTimestamp: "2023-06-23T12:39:10Z"
+    generation: 2
+    labels:
+      app: counter-postgresadmin
+      app.kubernetes.io/component: counter-postgresadmin
+      app.kubernetes.io/instance: counter-postgresadmin
+      app.kubernetes.io/name: counter-postgresadmin
+    name: counter-postgresadmin
+    namespace: zlic-dparic
+    resourceVersion: "1051956606"
+    uid: 62c80a32-38b1-416c-b899-423905a5b65a
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+        openshift.io/imported-from: docker.io/thajeztah/pgadmin4
+      from:
+        kind: DockerImage
+        name: docker.io/thajeztah/pgadmin4
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Local
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/zlic-dparic/counter-postgresadmin
+    publicDockerImageRepository: registry.exoscale-ch-gva-2-0.appuio.cloud/zlic-dparic/counter-postgresadmin
+    tags:
+    - items:
+      - created: "2023-06-23T12:39:11Z"
+        dockerImageReference: docker.io/thajeztah/pgadmin4@sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+        generation: 2
+        image: sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+      tag: latest
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/image.dockerRepositoryCheck: "2023-06-16T10:49:59Z"
+    creationTimestamp: "2023-06-16T10:49:58Z"
+    generation: 2
+    labels:
+      app: pgadmin4
+      app.kubernetes.io/component: pgadmin4
+      app.kubernetes.io/instance: pgadmin4
+      app.kubernetes.io/name: pgadmin4
+      app.kubernetes.io/part-of: uk109-app
+    name: pgadmin4
+    namespace: zlic-dparic
+    resourceVersion: "1035107790"
+    uid: 79eddce3-fdaf-4b13-908f-946a9dda7966
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+        openshift.io/imported-from: thajeztah/pgadmin4
+      from:
+        kind: DockerImage
+        name: thajeztah/pgadmin4
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Local
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/zlic-dparic/pgadmin4
+    publicDockerImageRepository: registry.exoscale-ch-gva-2-0.appuio.cloud/zlic-dparic/pgadmin4
+    tags:
+    - items:
+      - created: "2023-06-16T10:49:59Z"
+        dockerImageReference: thajeztah/pgadmin4@sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+        generation: 2
+        image: sha256:a9dd9c8d258fcbc5857a37c948c79f517d3425e0edc7478e3169fdd93b36d9df
+      tag: latest
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      app.openshift.io/vcs-ref: ""
+      app.openshift.io/vcs-uri: https://github.com/detsir/uk109
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: "2023-06-16T09:16:18Z"
+    generation: 1
+    labels:
+      app: uk109
+      app.kubernetes.io/component: uk109
+      app.kubernetes.io/instance: uk109
+      app.kubernetes.io/name: uk109
+      app.kubernetes.io/part-of: uk109-app
+      app.openshift.io/runtime: nginx
+      app.openshift.io/runtime-version: 1.20-ubi7
+    name: uk109
+    namespace: zlic-dparic
+    resourceVersion: "1034952731"
+    uid: 970e53b6-29ae-42c9-bbde-490f2a44d0b6
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109
+    publicDockerImageRepository: registry.exoscale-ch-gva-2-0.appuio.cloud/zlic-dparic/uk109
+    tags:
+    - items:
+      - created: "2023-06-16T09:17:05Z"
+        dockerImageReference: image-registry.openshift-image-registry.svc:5000/zlic-dparic/uk109@sha256:f577d3a917bf863008b946bc936559d0c888cca9b120e914ecc99f4131c95e8d
+        generation: 1
+        image: sha256:f577d3a917bf863008b946bc936559d0c888cca9b120e914ecc99f4131c95e8d
+      tag: latest
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-23T10:48:56Z"
+    name: counter-backend
+    namespace: zlic-dparic
+    resourceVersion: "1051754366"
+    uid: a5b981af-41a6-43ea-b737-dbeee3d70c5f
+  spec:
+    host: counter-backend-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 8080
+    tls:
+      termination: edge
+    to:
+      kind: Service
+      name: counter-backend
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-23T10:48:56Z"
+        status: "True"
+        type: Admitted
+      host: counter-backend-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-23T12:37:17Z"
+    name: counter-frontend
+    namespace: zlic-dparic
+    resourceVersion: "1051953470"
+    uid: c9fa8f23-5904-47a6-88a5-311ab17a618b
+  spec:
+    host: counter-frontend-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 8080
+    tls:
+      termination: edge
+    to:
+      kind: Service
+      name: counter-frontend
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-23T12:37:17Z"
+        status: "True"
+        type: Admitted
+      host: counter-frontend-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-23T12:39:11Z"
+    labels:
+      app: counter-postgresadmin
+      app.kubernetes.io/component: counter-postgresadmin
+      app.kubernetes.io/instance: counter-postgresadmin
+      app.kubernetes.io/name: counter-postgresadmin
+      app.openshift.io/runtime-version: latest
+    name: counter-postgresadmin
+    namespace: zlic-dparic
+    resourceVersion: "1051956626"
+    uid: 93739ce8-8055-4fe1-8459-b8e3dd78528d
+  spec:
+    host: counter-postgresadmin-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 5050-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: counter-postgresadmin
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-23T12:39:11Z"
+        status: "True"
+        type: Admitted
+      host: counter-postgresadmin-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"route.openshift.io/v1","kind":"Route","metadata":{"annotations":{},"labels":{"app":"html-page","app.kubernetes.io/component":"html-page","app.kubernetes.io/instance":"html-page","app.kubernetes.io/name":"html-page","app.kubernetes.io/part-of":"auftrag-6-2"},"name":"html-page","namespace":"zlic-dparic"},"spec":{"port":{"targetPort":"8080-tcp"},"tls":{"insecureEdgeTerminationPolicy":"Redirect","termination":"edge"},"to":{"kind":"Service","name":"html-page"},"wildcardPolicy":"None"}}
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-22T08:48:30Z"
+    labels:
+      app: html-page
+      app.kubernetes.io/component: html-page
+      app.kubernetes.io/instance: html-page
+      app.kubernetes.io/name: html-page
+      app.kubernetes.io/part-of: auftrag-6-2
+    name: html-page
+    namespace: zlic-dparic
+    resourceVersion: "1049151985"
+    uid: c588732a-f6cd-40ce-a386-1e31bd3aa200
+  spec:
+    host: html-page-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: html-page
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-22T08:48:30Z"
+        status: "True"
+        type: Admitted
+      host: html-page-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"route.openshift.io/v1","kind":"Route","metadata":{"annotations":{},"labels":{"app":"m210-page"},"name":"m210-page","namespace":"zlic-dparic"},"spec":{"port":{"targetPort":"8080-tcp"},"tls":{"insecureEdgeTerminationPolicy":"Redirect","termination":"edge"},"to":{"kind":"Service","name":"m210-page"}}}
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-22T09:19:28Z"
+    labels:
+      app: m210-page
+    name: m210-page
+    namespace: zlic-dparic
+    resourceVersion: "1049203189"
+    uid: 594bb520-bc98-4a4c-a5ce-c5b08aa1129a
+  spec:
+    host: m210-page-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: m210-page
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-22T09:19:28Z"
+        status: "True"
+        type: Admitted
+      host: m210-page-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"route.openshift.io/v1","kind":"Route","metadata":{"annotations":{},"labels":{"app":"nginxwebsitetest"},"name":"nginxwebsitetest","namespace":"zlic-dparic"},"spec":{"port":{"targetPort":"8080-tcp"},"tls":{"insecureEdgeTerminationPolicy":"Redirect","termination":"edge"},"to":{"kind":"Service","name":"nginxwebsitetest"}}}
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-23T07:43:07Z"
+    labels:
+      app: nginxwebsitetest
+    name: nginxwebsitetest
+    namespace: zlic-dparic
+    resourceVersion: "1051436571"
+    uid: 960eaf09-e2b7-4dc2-9334-7bc477fb0d51
+  spec:
+    host: nginxwebsitetest-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: nginxwebsitetest
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-23T07:43:07Z"
+        status: "True"
+        type: Admitted
+      host: nginxwebsitetest-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-16T10:50:00Z"
+    labels:
+      app: pgadmin4
+      app.kubernetes.io/component: pgadmin4
+      app.kubernetes.io/instance: pgadmin4
+      app.kubernetes.io/name: pgadmin4
+      app.kubernetes.io/part-of: uk109-app
+      app.openshift.io/runtime-version: latest
+    name: pgadmin4
+    namespace: zlic-dparic
+    resourceVersion: "1035107832"
+    uid: 34dc3095-2dab-4ef8-8062-b9586833bdd5
+  spec:
+    host: pgadmin4-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 5050-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: pgadmin4
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-16T10:50:00Z"
+        status: "True"
+        type: Admitted
+      host: pgadmin4-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-16T10:53:23Z"
+    labels:
+      template: postgresql-persistent-template
+      template.openshift.io/template-instance-owner: 3c79b44f-b920-430e-b750-1fdbea4573d5
+    name: postgresql
+    namespace: zlic-dparic
+    resourceVersion: "1035113636"
+    uid: 670294d5-b25d-41df-9233-6f0fa40ea67c
+  spec:
+    host: postgresql-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: postgresql
+    to:
+      kind: Service
+      name: postgresql
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-16T10:53:23Z"
+        status: "True"
+        type: Admitted
+      host: postgresql-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-22T11:21:08Z"
+    labels:
+      app: quotes
+      learn-kubernetes: quotes
+      sandbox: learn-kubernetes
+    name: quotes
+    namespace: zlic-dparic
+    resourceVersion: "1049404330"
+    uid: 96478c70-2200-4b48-beb3-f84df6ef25f4
+  spec:
+    host: quotes-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 10000-tcp
+    to:
+      kind: Service
+      name: quotes
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-22T11:21:08Z"
+        status: "True"
+        type: Admitted
+      host: quotes-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-22T11:30:40Z"
+    labels:
+      app: quotesweb
+      learn-kubernetes: quotesweb
+      sandbox: learn-kubernetes
+    name: quotesweb
+    namespace: zlic-dparic
+    resourceVersion: "1049420434"
+    uid: 6ab0c87e-d85b-4963-b0b8-814dd15a3db6
+  spec:
+    host: quotesweb-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 3000-tcp
+    to:
+      kind: Service
+      name: quotesweb
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-22T11:30:40Z"
+        status: "True"
+        type: Admitted
+      host: quotesweb-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2023-06-16T09:16:18Z"
+    labels:
+      app: uk109
+      app.kubernetes.io/component: uk109
+      app.kubernetes.io/instance: uk109
+      app.kubernetes.io/name: uk109
+      app.kubernetes.io/part-of: uk109-app
+      app.openshift.io/runtime: nginx
+      app.openshift.io/runtime-version: 1.20-ubi7
+    name: uk109
+    namespace: zlic-dparic
+    resourceVersion: "1034951316"
+    uid: e62811cf-d692-47fd-a3d2-54cedeb90686
+  spec:
+    host: uk109-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: uk109
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2023-06-16T09:16:18Z"
+        status: "True"
+        type: Admitted
+      host: uk109-zlic-dparic.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerCanonicalHostname: router-default.apps.exoscale-ch-gva-2-0.appuio.cloud
+      routerName: default
+      wildcardPolicy: None
+kind: List
+metadata:
+  resourceVersion: ""
